@@ -7,8 +7,8 @@ import dadm.ahararm.quotationshake.R
 import dadm.ahararm.quotationshake.databinding.FragmentNewQuotationBinding
 
 class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
-    private var _binding : FragmentNewQuotationBinding? = null
-    private val binding = _binding!!
+    private var _binding: FragmentNewQuotationBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
