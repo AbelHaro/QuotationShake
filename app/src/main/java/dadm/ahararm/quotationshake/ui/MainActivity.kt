@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import dadm.ahararm.quotationshake.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,11 +22,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navController = binding.fcvNavHostFragment.getFragment<NavHostFragment>().navController
-        binding.bnvMain.setupWithNavController(navController)
+        val appBarConfig = AppBarConfiguration(navController.graph)
+        (binding.bnvMain as NavigationBarView).setupWithNavController(navController)
 
         setSupportActionBar(binding.toolbar)
 
-        val appBarConfig = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfig)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
