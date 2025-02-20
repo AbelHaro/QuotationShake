@@ -22,10 +22,10 @@
         android:label="@string/favourites">
         <action
             android:id="@+id/action_favouritesFragment_to_appDialogFragment"
-            app:destination="@id/appDialogFragment" />
+            app:destination="@id/aboutDialogFragment" />
     </fragment>
     <dialog
-        android:id="@+id/appDialogFragment"
+        android:id="@+id/aboutDialogFragment"
         android:name="dadm.ahararm.quotationshake.ui.about.AppDialogFragment"
         android:label="@string/about">
         <action

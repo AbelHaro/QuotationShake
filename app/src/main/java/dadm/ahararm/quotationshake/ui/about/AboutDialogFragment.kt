@@ -6,7 +6,7 @@ import androidx.fragment.app.DialogFragment
 import dadm.ahararm.quotationshake.R
 import dadm.ahararm.quotationshake.databinding.FragmentNewQuotationBinding
 
-class AppDialogFragment : DialogFragment(R.layout.fragment_new_quotation) {
+class AppDialogFragment : DialogFragment(R.layout.fragment_about) {
     private var _binding: FragmentNewQuotationBinding? = null
     private val binding get() = _binding!!
 
