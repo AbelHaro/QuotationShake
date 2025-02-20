@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import dadm.ahararm.quotationshake.R
-import dadm.ahararm.quotationshake.databinding.FragmentNewQuotationBinding
+import dadm.ahararm.quotationshake.databinding.FragmentAboutBinding
 
 class AppDialogFragment : DialogFragment(R.layout.fragment_about) {
-    private var _binding: FragmentNewQuotationBinding? = null
+    private var _binding: FragmentAboutBinding? = null
     private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentNewQuotationBinding.bind(view)
+        _binding = FragmentAboutBinding.bind(view)
     }
 
     override fun onDestroyView() {
