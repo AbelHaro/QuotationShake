@@ -7,7 +7,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,14 +50,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_quote" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Botón flotante para añadir a favoritos -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:contentDescription="@string/add_to_favorites"
+            android:src="@drawable/baseline_add_24" />
     </FrameLayout>
 
-    <!-- Botón flotante para añadir a favoritos -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:contentDescription="@string/add_to_favorites"
-        android:src="@drawable/baseline_add_24" />
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
