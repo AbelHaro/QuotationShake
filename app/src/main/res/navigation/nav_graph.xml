@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/newQuotationFragment">
     <fragment
@@ -23,6 +22,9 @@
         <action
             android:id="@+id/action_favouritesFragment_to_appDialogFragment"
             app:destination="@id/aboutDialogFragment" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_deleteAllDialogFragment"
+            app:destination="@id/deleteAllDialogFragment" />
     </fragment>
     <dialog
         android:id="@+id/aboutDialogFragment"
@@ -32,5 +34,10 @@
             android:id="@+id/action_appDialogFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </dialog>
+
+    <dialog
+        android:id="@+id/deleteAllDialogFragment"
+        android:name="dadm.ahararm.quotationshake.ui.favourites.DeleteAllDialogFragment"
+        android:label="@string/delete_all" />
 
 </navigation>
