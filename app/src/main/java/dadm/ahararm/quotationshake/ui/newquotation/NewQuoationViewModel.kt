@@ -22,6 +22,9 @@ class NewQuotationViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
+    private val _add_favourite_visible = MutableStateFlow(false)
+    val add_favourite_visible: StateFlow<Boolean> = _add_favourite_visible.asStateFlow()
+
     private fun getUserName(): String {
         return setOf("Alice", "Bob", "Charlie", "David", "Emma", "").random()
     }
@@ -37,5 +40,10 @@ class NewQuotationViewModel : ViewModel() {
             )
         }
         _isLoading.value = false
+        _add_favourite_visible.value = true
+    }
+
+    fun addFavourite() {
+        _add_favourite_visible.value = false
     }
 }

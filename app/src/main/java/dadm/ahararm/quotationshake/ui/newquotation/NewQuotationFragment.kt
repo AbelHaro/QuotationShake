@@ -55,6 +55,20 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.add_favourite_visible.collect { visible ->
+                        binding.fabFavorite.isVisible = visible
+                    }
+                }
+            }
+        }
+
+        binding.fabFavorite.setOnClickListener {
+            viewModel.addFavourite()
+        }
+
         binding.srlMain.setOnRefreshListener {
             viewModel.getNewQuotation()
         }
