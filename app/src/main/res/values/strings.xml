@@ -8,4 +8,5 @@
     <string name="add_to_favorites">Add to favorites</string>
     <string name="welcome_message">Hello %1s!,\n\nRefresh to get a new quotation\n\n(swipe down or options menu)</string>
     <string name="anonymous">anonymous\n</string>
+    <string name="refresh">Refresh</string>
 </resources>
