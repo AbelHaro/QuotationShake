@@ -1,17 +1,22 @@
 package dadm.ahararm.quotationshake.ui.favourites
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dadm.ahararm.quotationshake.R
 import dadm.ahararm.quotationshake.databinding.FragmentFavouritesBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -22,15 +27,60 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
     private val binding get() = _binding!!
     private val viewModel: FavouritesViewModel by activityViewModels()
 
+    private val itemTouchHelper =
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun isLongPressDragEnabled(): Boolean = false
+            override fun isItemViewSwipeEnabled(): Boolean = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.deleteQuotationAtPosition(viewHolder.adapterPosition)
+            }
+        })
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFavouritesBinding.bind(view)
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter = QuotationListAdapter()
+        // Define la función onItemClick
+        val onItemClick: (String) -> Unit = { authorName ->
+            if (authorName == "Anonymous") {
+                Snackbar.make(
+                    binding.root,
+                    "No se puede mostrar información para autor anónimo",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                try {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        "https://en.wikipedia.org/wiki/Special:Search?search=$authorName".toUri()
+                    )
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Snackbar.make(
+                        binding.root,
+                        "No es posible gestionar la acción solicitada",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        val adapter = QuotationListAdapter(onItemClick)
         binding.rvFavourites.layoutManager = LinearLayoutManager(requireContext())
         binding.rvFavourites.adapter = adapter
+
+        itemTouchHelper.attachToRecyclerView(binding.rvFavourites)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.favouriteQuotations.collectLatest { list ->

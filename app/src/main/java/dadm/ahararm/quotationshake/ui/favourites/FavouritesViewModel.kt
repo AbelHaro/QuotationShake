@@ -25,16 +25,35 @@ class FavouritesViewModel : ViewModel() {
         )
 
     private fun getFavoriteQuotations(): List<Quotation> {
-        return List(20) {
+        val list = List(20) {
             Quotation(
                 id = it.toString(),
                 text = "Cita de ejemplo #$it",
                 author = if (Random.nextBoolean()) "Autor $it" else "Desconocido"
             )
         }
+        val mutableList = list.toMutableList()
+
+        mutableList.add(
+            Quotation(
+                id = "21",
+                text = "E = mc²",
+                author = "Albert Einstein"
+            )
+        )
+
+        return mutableList
     }
+
 
     fun deleteAllDialogFragment() {
         _favouriteQuotations.value = emptyList()
+    }
+
+    fun deleteQuotationAtPosition(position: Int) {
+        val currentList = _favouriteQuotations.value
+        if (position in currentList.indices) {
+            _favouriteQuotations.value = currentList.minus(currentList[position])
+        }
     }
 }

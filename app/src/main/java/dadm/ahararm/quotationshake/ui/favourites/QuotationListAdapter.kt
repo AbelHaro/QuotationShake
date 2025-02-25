@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import dadm.ahararm.quotationshake.databinding.QuotationItemBinding
 import dadm.ahararm.quotationshake.domain.model.Quotation
 
-class QuotationListAdapter :
-    ListAdapter<Quotation, QuotationListAdapter.ViewHolder>(QuotationDiff) {
+class QuotationListAdapter(
+    private val onItemClick: (String) -> Unit
+) : ListAdapter<Quotation, QuotationListAdapter.ViewHolder>(QuotationDiff) {
 
     object QuotationDiff : DiffUtil.ItemCallback<Quotation>() {
         override fun areItemsTheSame(oldItem: Quotation, newItem: Quotation): Boolean {
@@ -21,8 +22,16 @@ class QuotationListAdapter :
         }
     }
 
-    class ViewHolder(private val binding: QuotationItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: QuotationItemBinding,
+        private val onItemClick: (String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                onItemClick(binding.tvAuthor.text.toString())
+            }
+        }
 
         fun bind(quotation: Quotation) {
             binding.tvQuotation.text = quotation.text
@@ -35,7 +44,7 @@ class QuotationListAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             QuotationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, onItemClick) // Pasamos la función al ViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
