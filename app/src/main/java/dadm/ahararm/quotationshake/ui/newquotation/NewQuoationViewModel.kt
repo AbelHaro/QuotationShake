@@ -1,19 +1,22 @@
 package dadm.ahararm.quotationshake.ui.newquotation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dadm.ahararm.quotationshake.data.newquotation.NewQuotationRepository
 import dadm.ahararm.quotationshake.domain.model.Quotation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewQuotationViewModel : ViewModel() {
+@HiltViewModel
+class NewQuotationViewModel @Inject constructor(
+    private val newQuotationRepository: NewQuotationRepository
+) : ViewModel() {
 
-    // Propiedad privada y de solo lectura de MutableStateFlow<String>
-    private val _userName: MutableStateFlow<String> = MutableStateFlow(getUserName())
-
-    // Propiedad pública de solo lectura como StateFlow
-    val userName: StateFlow<String> = _userName.asStateFlow()
 
     // Estado interno mutable
     private val _quotation: MutableStateFlow<Quotation?> = MutableStateFlow(null)
@@ -22,28 +25,44 @@ class NewQuotationViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    private val _add_favourite_visible = MutableStateFlow(false)
-    val add_favourite_visible: StateFlow<Boolean> = _add_favourite_visible.asStateFlow()
+    private val _addFavouriteVisible = MutableStateFlow(false)
+    val addFavouriteVisible: StateFlow<Boolean> = _addFavouriteVisible.asStateFlow()
 
-    private fun getUserName(): String {
-        return setOf("Alice", "Bob", "Charlie", "David", "Emma", "").random()
+    private val _errorToDisplay = MutableStateFlow<Throwable?>(null)
+    val errorToDisplay: StateFlow<Throwable?> = _errorToDisplay.asStateFlow()
+
+    fun resetError() {
+        _errorToDisplay.value = null
     }
 
     fun getNewQuotation() {
         _isLoading.value = true
-        val num = (0..99).random()
-        _quotation.update {
-            Quotation(
-                id = "$num",
-                text = "Quotation text #$num",
-                author = "Author #$num"
+        
+        Log.d(
+            "NewQuotationViewModel.GetNewQuotation",
+            "El valor de _isLoading es: ${_isLoading.value}"
+        )
+
+        viewModelScope.launch {
+            newQuotationRepository.getNewQuotation().fold(
+                onSuccess = { quotation ->
+                    _quotation.value = quotation
+                },
+                onFailure = { error ->
+                    _errorToDisplay.value = error
+                }
             )
         }
+
         _isLoading.value = false
-        _add_favourite_visible.value = true
+        Log.d(
+            "NewQuotationViewModel.GetNewQuotation",
+            "El valor de _isLoading es: ${_isLoading.value}"
+        )
     }
 
+
     fun addFavourite() {
-        _add_favourite_visible.value = false
+        _addFavouriteVisible.value = false
     }
 }

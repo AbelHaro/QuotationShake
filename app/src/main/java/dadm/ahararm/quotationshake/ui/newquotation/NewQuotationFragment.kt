@@ -1,6 +1,7 @@
 package dadm.ahararm.quotationshake.ui.newquotation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -12,10 +13,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import dadm.ahararm.quotationshake.R
 import dadm.ahararm.quotationshake.databinding.FragmentNewQuotationBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProvider {
 
     private var _binding: FragmentNewQuotationBinding? = null
@@ -27,7 +31,6 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNewQuotationBinding.bind(view)
 
-        //Add menu provider
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -47,9 +50,26 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collect { isLoading ->
+                    Log.d(
+                        "NewQuotationFragment.onViewCreated",
+                        "El valor de isLoading es: $isLoading"
+                    )
+                    binding.srlMain.isRefreshing = isLoading
+                    Log.d(
+                        "NewQuotationFragment.onViewCreated",
+                        "El valor de isLoading es: $isLoading"
+                    )
+                }
+            }
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.isLoading.collect { isLoading ->
-                        binding.srlMain.isRefreshing = isLoading
+                    viewModel.addFavouriteVisible.collect { visible ->
+                        binding.fabFavorite.isVisible = visible
                     }
                 }
             }
@@ -57,13 +77,23 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.add_favourite_visible.collect { visible ->
-                        binding.fabFavorite.isVisible = visible
+                viewModel.errorToDisplay.collect { error ->
+                    error?.let {
+                        val messageResId = when (it) {
+                            is java.net.UnknownHostException -> R.string.error_network
+                            is java.net.HttpRetryException -> R.string.error_server
+                            else -> R.string.error_generic
+                        }
+
+                        Snackbar.make(binding.root, getString(messageResId), Snackbar.LENGTH_LONG)
+                            .show()
+                        viewModel.resetError()
                     }
                 }
             }
         }
+
+
 
         binding.fabFavorite.setOnClickListener {
             viewModel.addFavourite()
@@ -72,7 +102,6 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         binding.srlMain.setOnRefreshListener {
             viewModel.getNewQuotation()
         }
-
     }
 
     override fun onDestroyView() {
@@ -91,4 +120,5 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         }
         return false
     }
+
 }
