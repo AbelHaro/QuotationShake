@@ -11,9 +11,11 @@ class NewQuotationDataSourceImpl @Inject constructor(retrofit: Retrofit) : NewQu
 
     private val retrofitQuotationService = retrofit.create(NewQuotationRetrofit::class.java)
 
-    override suspend fun getQuotation(): Response<RemoteQuotationDto> {
+    override suspend fun getQuotation(lang: String): Response<RemoteQuotationDto> {
         return try {
-            return retrofitQuotationService.getQuotation()
+            return retrofitQuotationService.getQuotation(
+                lang = lang
+            )
         } catch (e: Exception) {
             Response.error(
                 400,

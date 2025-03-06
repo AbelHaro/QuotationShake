@@ -5,5 +5,5 @@ import retrofit2.Response
 
 interface NewQuotationDataSource {
 
-    suspend fun getQuotation(): Response<RemoteQuotationDto>
+    suspend fun getQuotation(lang: String): Response<RemoteQuotationDto>
 }

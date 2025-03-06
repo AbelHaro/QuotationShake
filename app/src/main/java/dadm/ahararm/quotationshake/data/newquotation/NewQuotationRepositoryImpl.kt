@@ -14,7 +14,6 @@ class NewQuotationRepositoryImpl @Inject constructor(
         if (!connectivityChecker.isConnectionAvailable()) {
             return Result.failure(NoInternetException())
         }
-
-        return newQuotationDataSource.getQuotation().toDomain()
+        return newQuotationDataSource.getQuotation(arrayOf("en", "ru", "xx").random()).toDomain()
     }
 }
