@@ -16,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import dadm.ahararm.quotationshake.R
 import dadm.ahararm.quotationshake.databinding.FragmentNewQuotationBinding
+import dadm.ahararm.quotationshake.utils.NoInternetException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -80,8 +81,8 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                 viewModel.errorToDisplay.collect { error ->
                     error?.let {
                         val messageResId = when (it) {
-                            is java.net.UnknownHostException -> R.string.error_network
                             is java.net.HttpRetryException -> R.string.error_server
+                            is NoInternetException -> R.string.error_network
                             else -> R.string.error_generic
                         }
 
