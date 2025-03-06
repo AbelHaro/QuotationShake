@@ -1,22 +1,25 @@
 package dadm.ahararm.quotationshake.data.newquotation
 
-import dadm.ahararm.quotationshake.domain.model.Quotation
+import dadm.ahararm.quotationshake.data.newquotation.model.RemoteQuotationDto
+import okhttp3.MediaType
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.Retrofit
 import javax.inject.Inject
 
-class NewQuotationDataSourceImpl @Inject constructor() : NewQuotationDataSource {
-    override suspend fun getQuotation(): Result<Quotation> {
-        val num = (0..99).random()
+class NewQuotationDataSourceImpl @Inject constructor(retrofit: Retrofit) : NewQuotationDataSource {
 
-        if (num >= 90) {
-            return Result.failure(Exception("Error getting new quotation"))
-        }
+    private val retrofitQuotationService = retrofit.create(NewQuotationRetrofit::class.java)
 
-        return Result.success(
-            Quotation(
-                id = num.toString(),
-                text = "Quotation text #$num",
-                author = "Author #$num"
+    override suspend fun getQuotation(): Response<RemoteQuotationDto> {
+        return try {
+            return retrofitQuotationService.getQuotation()
+        } catch (e: Exception) {
+            Response.error(
+                400,
+                ResponseBody.create(MediaType.parse("text/plain"), e.toString())
             )
-        )
+        }
     }
+
 }

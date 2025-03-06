@@ -1,6 +1,5 @@
 package dadm.ahararm.quotationshake.ui.newquotation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dadm.ahararm.quotationshake.data.newquotation.NewQuotationRepository
@@ -37,12 +36,6 @@ class NewQuotationViewModel @Inject constructor(
 
     fun getNewQuotation() {
         _isLoading.value = true
-        
-        Log.d(
-            "NewQuotationViewModel.GetNewQuotation",
-            "El valor de _isLoading es: ${_isLoading.value}"
-        )
-
         viewModelScope.launch {
             newQuotationRepository.getNewQuotation().fold(
                 onSuccess = { quotation ->
@@ -53,12 +46,7 @@ class NewQuotationViewModel @Inject constructor(
                 }
             )
         }
-
         _isLoading.value = false
-        Log.d(
-            "NewQuotationViewModel.GetNewQuotation",
-            "El valor de _isLoading es: ${_isLoading.value}"
-        )
     }
 
 

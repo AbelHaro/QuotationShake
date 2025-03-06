@@ -1,7 +1,6 @@
 package dadm.ahararm.quotationshake.ui.newquotation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -52,15 +51,7 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect { isLoading ->
-                    Log.d(
-                        "NewQuotationFragment.onViewCreated",
-                        "El valor de isLoading es: $isLoading"
-                    )
                     binding.srlMain.isRefreshing = isLoading
-                    Log.d(
-                        "NewQuotationFragment.onViewCreated",
-                        "El valor de isLoading es: $isLoading"
-                    )
                 }
             }
         }
@@ -93,8 +84,6 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                 }
             }
         }
-
-
 
         binding.fabFavorite.setOnClickListener {
             viewModel.addFavourite()
