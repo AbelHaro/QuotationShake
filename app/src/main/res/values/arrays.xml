@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Array de idiomas visibles para el usuario -->
+    <string-array name="language_names">
+        <item>@string/language_english</item>
+        <item>@string/language_russian</item>
+    </string-array>
+
+    <!-- Array de códigos de idioma utilizados internamente -->
+    <string-array name="language_codes">
+        <item>en</item>
+        <item>ru</item>
+    </string-array>
+</resources>

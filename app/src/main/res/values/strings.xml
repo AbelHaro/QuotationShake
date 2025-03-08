@@ -14,5 +14,7 @@
     <string name="error_network">Error de red. Verifica tu conexión.</string>
     <string name="error_server">Error del servidor. Inténtalo más tarde.</string>
     <string name="error_generic">Ha ocurrido un error inesperado.</string>
+    <string name="language_english">English</string>
+    <string name="language_russian">Russian</string>
 
 </resources>

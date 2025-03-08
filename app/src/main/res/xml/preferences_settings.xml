@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:key="username"
+        android:title="Nombre de usuario"
+        android:dialogTitle="Introduce tu nombre de usuario"
+        android:hint="Introduce un valor"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:key="language"
+        android:title="Seleccionar idioma"
+        android:dialogTitle="Elige un idioma"
+        android:defaultValue="en"
+        android:entries="@array/language_names"
+        android:entryValues="@array/language_codes"
+        app:useSimpleSummaryProvider="true" />
+
+</androidx.preference.PreferenceScreen>
