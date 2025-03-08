@@ -64,5 +64,6 @@ dependencies {
     implementation(libs.converter.moshi)
 
     implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.datastore.preferences)
 
 }

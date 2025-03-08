@@ -33,11 +33,23 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        // Observar el nombre del usuario
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userName.collect { userName ->
+                    if (userName.isNotEmpty())
+                        binding.tvWelcomeMessage.text =
+                            getString(R.string.welcome_message, userName)
+                    else
+                        binding.tvWelcomeMessage.text =
+                            getString(R.string.welcome_message, getString(R.string.anonymous))
+                }
+            }
+        }
 
-                binding.tvAuthor.isVisible = false
-
+        // Observar la cotización actual
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.quotation.collect { quotation ->
                     binding.tvWelcomeMessage.isVisible = quotation == null
                     binding.tvQuote.text = quotation?.text ?: ""
@@ -48,6 +60,7 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
             }
         }
 
+        // Observar el estado de carga
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect { isLoading ->
@@ -56,17 +69,16 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
             }
         }
 
-
+        // Observar la visibilidad del botón de favoritos
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.addFavouriteVisible.collect { visible ->
-                        binding.fabFavorite.isVisible = visible
-                    }
+                viewModel.addFavouriteVisible.collect { visible ->
+                    binding.fabFavorite.isVisible = visible
                 }
             }
         }
 
+        // Observar errores
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.errorToDisplay.collect { error ->
@@ -85,6 +97,7 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
             }
         }
 
+        // Configurar listeners
         binding.fabFavorite.setOnClickListener {
             viewModel.addFavourite()
         }
@@ -110,5 +123,4 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         }
         return false
     }
-
 }
