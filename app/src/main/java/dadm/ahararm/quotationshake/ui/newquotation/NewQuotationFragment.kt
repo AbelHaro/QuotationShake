@@ -68,6 +68,7 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         observeQuotation()
         observeLoadingState()
         observeErrors()
+        observeFavouriteButtonVisibility() // <-- Nuevo observador
     }
 
     private fun observeUserName() {
@@ -94,9 +95,6 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                     binding.tvAuthor.text = quotation?.author.takeIf { it?.isNotEmpty() == true }
                         ?: getString(R.string.anonymous)
                     binding.tvAuthor.isVisible = quotation != null
-
-                    binding.fabFavorite.isVisible =
-                        quotation != null && !binding.tvWelcomeMessage.isVisible
                 }
             }
         }
@@ -126,6 +124,17 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                             .show()
                         viewModel.resetError()
                     }
+                }
+            }
+        }
+    }
+
+    // Nuevo observador para la visibilidad del botón de favoritos
+    private fun observeFavouriteButtonVisibility() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.addFavouriteVisible.collect { isVisible ->
+                    binding.fabFavorite.isVisible = isVisible
                 }
             }
         }

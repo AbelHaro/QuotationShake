@@ -2,6 +2,7 @@ package dadm.ahararm.quotationshake.ui.newquotation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dadm.ahararm.quotationshake.data.favourites.FavouritesRepository
 import dadm.ahararm.quotationshake.data.newquotation.NewQuotationRepository
 import dadm.ahararm.quotationshake.data.settings.SettingsRepository
 import dadm.ahararm.quotationshake.domain.model.Quotation
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NewQuotationViewModel @Inject constructor(
     private val newQuotationRepository: NewQuotationRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val favouritesRepository: FavouritesRepository
 ) : ViewModel() {
 
     // Flujos de estado internos
@@ -62,6 +64,11 @@ class NewQuotationViewModel @Inject constructor(
 
     // Añade la cotización actual a favoritos
     fun addFavourite() {
-        _addFavouriteVisible.value = false
+        viewModelScope.launch {
+            _quotation.value?.let { quotation ->
+                favouritesRepository.addQuotationToFavourites(quotation)
+                _addFavouriteVisible.value = false
+            }
+        }
     }
 }
