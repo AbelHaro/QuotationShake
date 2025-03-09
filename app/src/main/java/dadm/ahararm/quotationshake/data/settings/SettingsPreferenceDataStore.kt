@@ -11,10 +11,16 @@ class SettingsPreferenceDataStore @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : PreferenceDataStore() {
 
+    companion object {
+        private const val KEY_USERNAME = "username"
+        private const val KEY_LANGUAGE = "language"
+    }
+
     override fun putString(key: String?, value: String?) {
         CoroutineScope(Dispatchers.IO).launch {
             when (key) {
-                "username" -> settingsRepository.setUserName(value ?: "")
+                KEY_USERNAME -> settingsRepository.setUserName(value ?: "")
+                KEY_LANGUAGE -> settingsRepository.setLanguage(value ?: "")
             }
         }
     }
@@ -22,7 +28,8 @@ class SettingsPreferenceDataStore @Inject constructor(
     override fun getString(key: String?, defValue: String?): String? {
         return runBlocking(Dispatchers.IO) {
             when (key) {
-                "username" -> settingsRepository.getUserNameSnapshot()
+                KEY_USERNAME -> settingsRepository.getUserNameSnapshot()
+                KEY_LANGUAGE -> settingsRepository.getLanguageSnapshot()
                 else -> defValue
             }
         }

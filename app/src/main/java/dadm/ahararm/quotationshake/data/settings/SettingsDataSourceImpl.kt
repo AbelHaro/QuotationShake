@@ -18,24 +18,39 @@ class SettingsDataSourceImpl @Inject constructor(
 
     companion object {
         private val USER_NAME = stringPreferencesKey("username")
+        private val LANGUAGE = stringPreferencesKey("language")
     }
 
-    override fun getUserName(): Flow<String> {
+    private fun get(key: Preferences.Key<String>): Flow<String> {
         return dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
             } else throw exception
         }.map { preferences ->
-            preferences[USER_NAME].orEmpty()
+            preferences[key] ?: when (key) {
+                LANGUAGE -> "en"
+                else -> ""
+            }
         }
     }
 
-    override suspend fun getUserNameSnapshot(): String =
-        dataStore.data.first()[USER_NAME] ?: ""
+    private suspend fun getSnapshot(key: Preferences.Key<String>): String =
+        dataStore.data.first()[key] ?: when (key) {
+            LANGUAGE -> "en"
+            else -> ""
+        }
 
-    override suspend fun setUserName(userName: String) {
+    private suspend fun set(key: Preferences.Key<String>, value: String) {
         dataStore.edit { preferences ->
-            preferences[USER_NAME] = userName
+            preferences[key] = value
         }
     }
+
+    override fun getUserName(): Flow<String> = get(USER_NAME)
+    override suspend fun getUserNameSnapshot(): String = getSnapshot(USER_NAME)
+    override suspend fun setUserName(userName: String) = set(USER_NAME, userName)
+
+    override fun getLanguage(): Flow<String> = get(LANGUAGE)
+    override suspend fun getLanguageSnapshot(): String = getSnapshot(LANGUAGE)
+    override suspend fun setLanguage(language: String) = set(LANGUAGE, language)
 }
