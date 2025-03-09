@@ -21,7 +21,7 @@ interface FavouritesDao {
     fun getAllFavouritesQuotations(): Flow<List<DatabaseQuotationDto>>
 
     @Query("SELECT * FROM ${FavouritesContract.FavouritesTable.TABLE_NAME} WHERE ${FavouritesContract.FavouritesTable.COLUMN_ID} = :id")
-    fun getQuotationById(id: String): Flow<DatabaseQuotationDto>
+    fun getQuotationById(id: String): Flow<DatabaseQuotationDto?>
 
     @Query("DELETE FROM ${FavouritesContract.FavouritesTable.TABLE_NAME}")
     suspend fun deleteAllFavourites()

@@ -133,7 +133,7 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
     private fun observeFavouriteButtonVisibility() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.addFavouriteVisible.collect { isVisible ->
+                viewModel.isAddToFavouritesVisible.collect { isVisible ->
                     binding.fabFavorite.isVisible = isVisible
                 }
             }

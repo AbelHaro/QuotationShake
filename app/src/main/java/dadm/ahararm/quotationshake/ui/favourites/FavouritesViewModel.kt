@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,16 +34,17 @@ class FavouritesViewModel @Inject constructor(
         )
 
     fun deleteAllDialogFragment() {
-        // TODO: Implementar la lógica para borrar todas las citas
-        // favouritesRepository.deleteAllFavourites()
+        viewModelScope.launch {
+            favouritesRepository.deleteAllFavourites()
+        }
     }
 
-    // Función para borrar una cita en una posición específica (comentada hasta su corrección)
     fun deleteQuotationAtPosition(position: Int) {
-        // TODO: Implementar la lógica para borrar una cita en la posición dada
-        // val currentList = favouriteQuotations.value
-        // if (position in currentList.indices) {
-        //     favouritesRepository.removeQuotationFromFavourites(currentList[position])
-        // }
+        viewModelScope.launch {
+            val currentList = favouriteQuotations.value
+            if (position in currentList.indices) {
+                favouritesRepository.removeQuotationFromFavourites(currentList[position])
+            }
+        }
     }
 }
