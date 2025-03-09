@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuotationShake</string>
+    <string name="get_a_new_quotation">Nueva cita</string>
+    <string name="about">QuotationShake creada por  Abel Haro  ahararm@upv.es  Desarrollado para DADM 2024</string>
+    <string name="favourites">Favoritos</string>
+    <string name="settings">Ajustes</string>
+    <string name="about_images">imagen acerca de</string>
+    <string name="add_to_favorites">Añadir a favoritos</string>
+    <string name="language_russian">Ruso</string>
+    <string name="welcome_message">Hola %1s! Actualiza para obtener una nueva cita (desliza hacia abajo o seleccione el menú de opciones)</string>
+    <string name="anonymous">anónimo</string>
+    <string name="refresh">Actualizar</string>
+    <string name="delete_all">Elimina todas las citas favoritas</string>
+    <string name="delete_all_quotations">Elimina todas las citas</string>
+    <string name="error_network">Error de red. Verifica tu conexión.</string>
+    <string name="error_server">Error del servidor. Inténtalo más tarde.</string>
+    <string name="error_generic">Ha ocurrido un error inesperado.</string>
+    <string name="language_english">Inglés</string>
+</resources>

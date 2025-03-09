@@ -21,7 +21,7 @@ class FavouritesViewModel @Inject constructor(
         .getAllFavouritesQuotations()
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
+            started = SharingStarted.WhileSubscribed(),
             initialValue = emptyList()
         )
 

@@ -28,7 +28,7 @@
             android:id="@+id/iv_about_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/imagen_de_about"
+            android:contentDescription="@string/about_images"
             android:src="@drawable/about_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
