@@ -20,6 +20,10 @@
     <string name="cite_author">Cite author</string>
     <string name="quotation_author_format" translatable="false">- %1$s -</string>
     <string name="cite_example">Cite example</string>
+    <string name="confirm_delete_all_quotes_title">Delete all favourite quotations</string>
+    <string name="confirm_delete_all_quotes_text">Do you really want to delete all your quotations?</string>
+    <string name="confirm_delete_all_quotes_positive_button">Yes</string>
+    <string name="confirm_delete_all_quotes_negative_button">No</string>
 
 
 </resources>
