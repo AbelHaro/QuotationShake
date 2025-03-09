@@ -92,8 +92,9 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                 viewModel.quotation.collect { quotation ->
                     binding.tvWelcomeMessage.isVisible = quotation == null
                     binding.tvQuote.text = quotation?.text ?: ""
-                    binding.tvAuthor.text = quotation?.author.takeIf { it?.isNotEmpty() == true }
-                        ?: getString(R.string.anonymous)
+                    binding.tvAuthor.text = "- " + (
+                            quotation?.author.takeIf { it?.isNotEmpty() == true }
+                                ?: getString(R.string.anonymous)) + " -"
                     binding.tvAuthor.isVisible = quotation != null
                 }
             }
