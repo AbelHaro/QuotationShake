@@ -1,6 +1,6 @@
 [versions]
 agp = "8.8.2"
-datastorePreferences = "1.0.0"
+datastorePreferences = "1.1.3"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -17,6 +17,7 @@ moshiKotlin = "1.14.0"
 navigationUiKtx = "2.8.8"
 preferenceKtx = "1.2.1"
 retrofit = "2.9.0"
+roomcompiler = "2.6.1"
 swiperefreshlayout = "1.1.0"
 
 [libraries]
@@ -26,6 +27,9 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationUiKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomcompiler" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomcompiler" }
+androidx-roomcompiler = { module = "androidx.room:room-compiler", version.ref = "roomcompiler" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
