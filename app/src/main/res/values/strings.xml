@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">QuotationShake</string>
-    <string name="get_a_new_quotation">Get a new quotation</string>
+    <string name="get_a_new_quotation">New Quote</string>
     <string name="about">QuotationShake by  Abel Haro  ahararm@upv.es  Developed for DADM 2024</string>
     <string name="favourites">Favourites</string>
     <string name="settings">Settings</string>
@@ -16,5 +16,10 @@
     <string name="language_english">English</string>
     <string name="language_russian">Russian</string>
     <string name="error_network">Network error. Check your connection.</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="cite_author">Cite author</string>
+    <string name="quotation_author_format" translatable="false">- %1$s -</string>
+    <string name="cite_example">Cite example</string>
+
 
 </resources>

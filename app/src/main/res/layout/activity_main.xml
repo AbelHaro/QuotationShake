@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                android:textSize="24sp"
                 app:navigationIconTint="@color/md_theme_onPrimary"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:titleTextColor="@color/md_theme_onPrimary" />

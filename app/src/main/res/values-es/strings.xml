@@ -17,4 +17,7 @@
     <string name="error_server">Error del servidor. Inténtalo más tarde.</string>
     <string name="error_generic">Ha ocurrido un error inesperado.</string>
     <string name="language_english">Inglés</string>
+    <string name="hello_world">Hola mundo!</string>
+    <string name="cite_author">Autor de la cita</string>
+    <string name="cite_example">Ejemplo de cita</string>
 </resources>

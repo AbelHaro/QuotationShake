@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/welcome_message"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_quote"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:justificationMode="inter_word"
-                android:text="Hello, World!"
+                android:text="@string/hello_world"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_author"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +47,8 @@
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Autor de la cita"
+                android:text="@string/cite_author"
+                android:textSize="20sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +61,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:contentDescription="@string/add_to_favorites"
-            android:src="@drawable/baseline_add_24" />
+            android:src="@drawable/svg_mark_favourite" />
     </FrameLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

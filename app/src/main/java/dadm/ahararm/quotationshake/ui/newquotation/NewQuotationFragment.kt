@@ -91,10 +91,14 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.quotation.collect { quotation ->
                     binding.tvWelcomeMessage.isVisible = quotation == null
+
                     binding.tvQuote.text = quotation?.text ?: ""
-                    binding.tvAuthor.text = "- " + (
-                            quotation?.author.takeIf { it?.isNotEmpty() == true }
-                                ?: getString(R.string.anonymous)) + " -"
+                    binding.tvQuote.isVisible = quotation != null
+
+                    binding.tvAuthor.text = getString(
+                        R.string.quotation_author_format,
+                        if (quotation?.author.isNullOrEmpty()) getString(R.string.anonymous) else quotation?.author
+                    )
                     binding.tvAuthor.isVisible = quotation != null
                 }
             }
