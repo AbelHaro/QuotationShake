@@ -20,23 +20,19 @@ class NewQuotationViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    // Estado interno mutable para la cotización
-    private val _quotation: MutableStateFlow<Quotation?> = MutableStateFlow(null)
-    val quotation: StateFlow<Quotation?> = _quotation.asStateFlow()
-
-    // Estado interno mutable para el indicador de carga
+    // Flujos de estado internos
+    private val _quotation = MutableStateFlow<Quotation?>(null)
     private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-
-    // Estado interno mutable para la visibilidad del botón de favoritos
-    private val _addFavouriteVisible = MutableStateFlow(false)
-    val addFavouriteVisible: StateFlow<Boolean> = _addFavouriteVisible.asStateFlow()
-
-    // Estado interno mutable para el error a mostrar
+    private val _addFavouriteVisible = MutableStateFlow(true)
     private val _errorToDisplay = MutableStateFlow<Throwable?>(null)
+
+    // Flujos de estado expuestos
+    val quotation: StateFlow<Quotation?> = _quotation.asStateFlow()
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+    val addFavouriteVisible: StateFlow<Boolean> = _addFavouriteVisible.asStateFlow()
     val errorToDisplay: StateFlow<Throwable?> = _errorToDisplay.asStateFlow()
 
-    // Estado del nombre del usuario, convertido directamente a StateFlow desde el repositorio
+    // Flujo del nombre del usuario
     val userName: StateFlow<String> = settingsRepository.getUserName().stateIn(
         scope = viewModelScope,
         initialValue = "",

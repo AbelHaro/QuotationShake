@@ -31,23 +31,61 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNewQuotationBinding.bind(view)
 
-        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        setupMenuProvider()
+        setupObservers()
+        setupListeners()
+    }
 
-        // Observar el nombre del usuario
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    // Configuración del menú
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_new_quotation, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.i_refresh -> {
+                viewModel.getNewQuotation()
+                true
+            }
+
+            else -> false
+        }
+    }
+
+    // Configuración del MenuProvider
+    private fun setupMenuProvider() {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    // Configuración de observadores
+    private fun setupObservers() {
+        observeUserName()
+        observeQuotation()
+        observeLoadingState()
+        observeErrors()
+    }
+
+    private fun observeUserName() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userName.collect { userName ->
-                    if (userName.isNotEmpty())
-                        binding.tvWelcomeMessage.text =
-                            getString(R.string.welcome_message, userName)
-                    else
-                        binding.tvWelcomeMessage.text =
-                            getString(R.string.welcome_message, getString(R.string.anonymous))
+                    val welcomeMessage = if (userName.isNotEmpty()) {
+                        getString(R.string.welcome_message, userName)
+                    } else {
+                        getString(R.string.welcome_message, getString(R.string.anonymous))
+                    }
+                    binding.tvWelcomeMessage.text = welcomeMessage
                 }
             }
         }
+    }
 
-        // Observar la cotización actual
+    private fun observeQuotation() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.quotation.collect { quotation ->
@@ -56,11 +94,15 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                     binding.tvAuthor.text = quotation?.author.takeIf { it?.isNotEmpty() == true }
                         ?: getString(R.string.anonymous)
                     binding.tvAuthor.isVisible = quotation != null
+
+                    binding.fabFavorite.isVisible =
+                        quotation != null && !binding.tvWelcomeMessage.isVisible
                 }
             }
         }
+    }
 
-        // Observar el estado de carga
+    private fun observeLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect { isLoading ->
@@ -68,17 +110,9 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                 }
             }
         }
+    }
 
-        // Observar la visibilidad del botón de favoritos
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.addFavouriteVisible.collect { visible ->
-                    binding.fabFavorite.isVisible = visible
-                }
-            }
-        }
-
-        // Observar errores
+    private fun observeErrors() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.errorToDisplay.collect { error ->
@@ -88,7 +122,6 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                             is NoInternetException -> R.string.error_network
                             else -> R.string.error_generic
                         }
-
                         Snackbar.make(binding.root, getString(messageResId), Snackbar.LENGTH_LONG)
                             .show()
                         viewModel.resetError()
@@ -96,8 +129,10 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                 }
             }
         }
+    }
 
-        // Configurar listeners
+    // Configuración de listeners
+    private fun setupListeners() {
         binding.fabFavorite.setOnClickListener {
             viewModel.addFavourite()
         }
@@ -105,22 +140,5 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         binding.srlMain.setOnRefreshListener {
             viewModel.getNewQuotation()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_new_quotation, menu)
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.itemId == R.id.i_refresh) {
-            viewModel.getNewQuotation()
-            return true
-        }
-        return false
     }
 }
