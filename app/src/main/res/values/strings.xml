@@ -24,6 +24,7 @@
     <string name="confirm_delete_all_quotes_text">Do you really want to delete all your quotations?</string>
     <string name="confirm_delete_all_quotes_positive_button">Yes</string>
     <string name="confirm_delete_all_quotes_negative_button">No</string>
+    <string name="about_title">About</string>
 
 
 </resources>
