@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             val bars = insets.getInsets(
                 WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.systemBars()
             )
-            view.updatePadding(left = bars.left, top = 0, right = 0, bottom = bars.bottom)
+            view.updatePadding(left = bars.left, top = 0, right = 0, bottom = 0)
             WindowInsetsCompat.CONSUMED
         }
 
